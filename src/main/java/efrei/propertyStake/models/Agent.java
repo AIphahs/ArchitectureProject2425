@@ -31,6 +31,41 @@ public class Agent extends User {
         this.user_id = user_id;
     }
 
+    public String getFirstname() {
+        return super.getFirstname();
+    }
+    public void setFirstname(String firstname) {
+        super.setFirstname(firstname);
+    }
+
+    public String getLastname() {
+        return super.getLastname();
+    }
+    public void setLastname(String lastname) {
+        super.setLastname(lastname);
+    }
+
+    public String getEmail() {
+        return super.getEmail();
+    }
+    public void setEmail(String email) {
+        super.setEmail(email);
+    }
+
+    public String getPassword() {
+        return super.getPassword();
+    }
+    public void setPassword(String password) {
+        super.setPassword(password);
+    }
+
+    public String getUserType() {
+        return super.getUserType();
+    }
+    public void setUserType(String user_type) {
+        super.setUserType(user_type);
+    }
+
     public String getAgencyName() {
         return agencyName;
     }

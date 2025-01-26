@@ -30,4 +30,9 @@ public class InvestmentController {
     public Investment getInvestment(@PathVariable UUID id) {
         return investmentService.getInvestment(id);
     }
+
+    @GetMapping("/property/{propertyId}")
+    public List<Investment> getInvestmentsByProperty(@PathVariable UUID propertyId) {
+        return investmentService.getInvestmentsByProperty(propertyId);
+    }
 }

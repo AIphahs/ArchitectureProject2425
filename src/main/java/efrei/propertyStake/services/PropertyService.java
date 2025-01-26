@@ -18,7 +18,6 @@ public class PropertyService {
     public Property addProperty(Property property) {
         property.setId(UUID.randomUUID());
         property.setIsFundingOpen(true);
-        property.setFundedAmount(0);
         property.setFundingDeadline(LocalDate.now().plusMonths(2));
         properties.put(property.getId(), property);
         return property;
@@ -55,11 +54,12 @@ public class PropertyService {
 
     public void completeFunding(UUID propertyId) {
         Property property = properties.get(propertyId);
-        if (property != null && property.getFundedAmount() >= property.getPrice()) {
+        if (property.getFundedAmount() >= property.getPrice()) {
             property.setIsFundingOpen(false);
+            System.out.println("Funding completed for property: " + property.getName());
 
             // Notify all contributors
-            notificationService.notifyAllContributors(propertyId.toString());
+            // notificationService.notifyAllContributors(propertyId.toString());
 
             // Generate share certificates for all contributors
             investments.values().stream()
