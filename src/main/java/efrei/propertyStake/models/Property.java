@@ -1,40 +1,63 @@
 package efrei.propertyStake.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table(name = "properties")
 public class Property {
-    private UUID property_id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
     private String name;
-    private double price;
-    private double rentalIncomePercentage;
-    private double appreciationRate;
-    private String type;
-    private boolean isFundingOpen;
-    private double fundedAmount;
-    private LocalDate fundingDeadline;
+    private double price;                 // Prix total de la propriété
+    private double fundedAmount;          // Montant déjà investi
+    private LocalDate fundingDeadline;    // Date limite de funding
+    private boolean fundingOpen;          // Indique si la propriété est encore ouverte au funding
 
-    public Property() {}
+    private double rentalIncomePercentage; // 6% de revenus locatifs, par ex
+    private double appreciationRate;       // 2% de valorisation, etc.
 
-    public Property(UUID property_id, String name, double price, double rentalIncomePercentage, double appreciationRate, String type, boolean isFundingOpen, double fundedAmount, LocalDate fundingDeadline) {
-        this.property_id = property_id;
+    private String type; // "apartment", "building", etc.
+
+    // Relation ManyToOne vers l'Agent
+    @ManyToOne
+    @JoinColumn(name = "agent_id")
+    @JsonBackReference
+    private Agent agent;
+
+    // Relation OneToMany vers Investment
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Investment> investments = new ArrayList<>();
+
+    public Property() {
+    }
+
+    public Property(String name, double price, LocalDate fundingDeadline, boolean fundingOpen,
+                    double rentalIncomePercentage, double appreciationRate, String type) {
         this.name = name;
         this.price = price;
+        this.fundingDeadline = fundingDeadline;
+        this.fundingOpen = fundingOpen;
         this.rentalIncomePercentage = rentalIncomePercentage;
         this.appreciationRate = appreciationRate;
         this.type = type;
-        this.isFundingOpen = isFundingOpen;
-        this.fundedAmount = fundedAmount;
-        this.fundingDeadline = fundingDeadline;
+        this.fundedAmount = 0.0;
     }
 
-    // Getters and Setters
+    // Getters / Setters
     public UUID getId() {
-        return property_id;
+        return id;
     }
-
-    public void setId(UUID property_id) {
-        this.property_id = property_id;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,6 +72,27 @@ public class Property {
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getFundedAmount() {
+        return fundedAmount;
+    }
+    public void setFundedAmount(double fundedAmount) {
+        this.fundedAmount = fundedAmount;
+    }
+
+    public LocalDate getFundingDeadline() {
+        return fundingDeadline;
+    }
+    public void setFundingDeadline(LocalDate fundingDeadline) {
+        this.fundingDeadline = fundingDeadline;
+    }
+
+    public boolean isFundingOpen() {
+        return fundingOpen;
+    }
+    public void setFundingOpen(boolean fundingOpen) {
+        this.fundingOpen = fundingOpen;
     }
 
     public double getRentalIncomePercentage() {
@@ -72,25 +116,18 @@ public class Property {
         this.type = type;
     }
 
-    public boolean getIsFundingOpen() {
-        return isFundingOpen;
+    public Agent getAgent() {
+        return agent;
     }
-    public void setIsFundingOpen(boolean isFundingOpen) {
-        this.isFundingOpen = isFundingOpen;
-    }
-
-    public double getFundedAmount() {
-        return fundedAmount;
-    }
-    public void setFundedAmount(double fundedAmount) {
-        this.fundedAmount = fundedAmount;
+    public void setAgent(Agent agent) {
+        this.agent = agent;
     }
 
-    public LocalDate getFundingDeadline() {
-        return fundingDeadline;
+    public List<Investment> getInvestments() {
+        return investments;
     }
-    public void setFundingDeadline(LocalDate fundingDeadline) {
-        this.fundingDeadline = fundingDeadline;
+    public void setInvestments(List<Investment> investments) {
+        this.investments = investments;
     }
 
 }

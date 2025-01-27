@@ -1,33 +1,47 @@
 package efrei.propertyStake.services;
 
 import efrei.propertyStake.models.Wallet;
+import efrei.propertyStake.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class WalletService {
-    private final Map<UUID, Wallet> wallets = new HashMap<>();
 
-    public Wallet createWallet(UUID userId) {
-        Wallet wallet = new Wallet();
-        wallet.setId(UUID.randomUUID());
-        wallet.setBalance(0.0);
-        wallets.put(userId, wallet);
-        return wallet;
+    private final WalletRepository walletRepository;
+
+    public WalletService(WalletRepository walletRepository) {
+        this.walletRepository = walletRepository;
     }
 
-    public Wallet depositFunds(UUID walletId, double amount) {
-        Wallet wallet = wallets.get(walletId);
-        if (wallet != null) {
-            wallet.setBalance(wallet.getBalance() + amount);
+    public Wallet createWallet(Wallet wallet) {
+        return walletRepository.save(wallet);
+    }
+
+    public List<Wallet> getAllWallets() {
+        return walletRepository.findAll();
+    }
+
+    public Wallet getWalletById(UUID id) {
+        return walletRepository.findById(id).orElse(null);
+    }
+
+    public Wallet updateBalance(UUID walletId, double newBalance) {
+        Wallet w = getWalletById(walletId);
+        if (w != null) {
+            w.setBalance(newBalance);
+            return walletRepository.save(w);
         }
-        return wallet;
+        return null;
     }
 
-    public Wallet getWallet(UUID walletId) {
-        return wallets.get(walletId);
+    public boolean deleteWallet(UUID id) {
+        if (walletRepository.existsById(id)) {
+            walletRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

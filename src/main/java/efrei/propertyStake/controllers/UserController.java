@@ -10,6 +10,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    /*
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -34,5 +35,5 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
-    }
+    }*/
 }

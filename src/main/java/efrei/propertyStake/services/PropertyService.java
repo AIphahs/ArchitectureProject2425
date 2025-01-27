@@ -1,75 +1,60 @@
 package efrei.propertyStake.services;
 
-import efrei.propertyStake.models.Investment;
 import efrei.propertyStake.models.Property;
-import org.springframework.beans.factory.annotation.Autowired;
+import efrei.propertyStake.repository.PropertyRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PropertyService {
 
-    private final Map<UUID, Property> properties = new HashMap<>();
-    private final Map<UUID, Investment> investments = new HashMap<>();
+    private final PropertyRepository propertyRepository;
 
-    public Property addProperty(Property property) {
-        property.setId(UUID.randomUUID());
-        property.setIsFundingOpen(true);
-        property.setFundedAmount(0);
-        property.setFundingDeadline(LocalDate.now().plusMonths(2));
-        properties.put(property.getId(), property);
-        return property;
+    public PropertyService(PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
     }
 
-    public List<Property> listProperties(boolean fundingOnly) {
-        if (fundingOnly) {
-            return properties.values().stream().filter(Property::getIsFundingOpen).collect(Collectors.toList());
+    public Property createProperty(Property property) {
+        return propertyRepository.save(property);
+    }
+
+    public List<Property> getAllProperties() {
+        return propertyRepository.findAll();
+    }
+
+    public Property getPropertyById(UUID id) {
+        return propertyRepository.findById(id).orElse(null);
+    }
+
+    public Property updateProperty(UUID id, Property updated) {
+        Optional<Property> optProp = propertyRepository.findById(id);
+        if (optProp.isPresent()) {
+            Property existing = optProp.get();
+            existing.setName(updated.getName());
+            existing.setPrice(updated.getPrice());
+            existing.setFundingDeadline(updated.getFundingDeadline());
+            existing.setFundingOpen(updated.isFundingOpen());
+            existing.setRentalIncomePercentage(updated.getRentalIncomePercentage());
+            existing.setAppreciationRate(updated.getAppreciationRate());
+            existing.setType(updated.getType());
+            // etc.
+            return propertyRepository.save(existing);
         }
-        return new ArrayList<>(properties.values());
+        return null;
     }
 
-    public Property getProperty(UUID id) {
-        return properties.get(id);
-    }
-
-    public void updateProperty(UUID id, Property updatedProperty) {
-        Property existingProperty = properties.get(id);
-        if (existingProperty != null) {
-            updatedProperty.setId(existingProperty.getId());
-            properties.put(id, updatedProperty);
+    public boolean deleteProperty(UUID id) {
+        if (propertyRepository.existsById(id)) {
+            propertyRepository.deleteById(id);
+            return true;
         }
+        return false;
     }
 
-    public void removeProperty(UUID id) {
-        properties.remove(id);
+    public List<Property> getOpenPropertiesLimited() {
+        return propertyRepository.findTop6ByFundingOpenTrueOrderByFundingDeadlineAsc();
     }
-
-    @Autowired
-    private NotificationService notificationService;
-
-    @Autowired
-    private ShareCertificateService shareCertificateService;
-
-    public void completeFunding(UUID propertyId) {
-        Property property = properties.get(propertyId);
-        if (property != null && property.getFundedAmount() >= property.getPrice()) {
-            property.setIsFundingOpen(false);
-
-            // Notify all contributors
-            notificationService.notifyAllContributors(propertyId.toString());
-
-            // Generate share certificates for all contributors
-            investments.values().stream()
-                    .filter(investment -> investment.getPropertyId().equals(propertyId))
-                    .forEach(investment -> shareCertificateService.generateCertificate(
-                            investment.getPropertyId(),
-                            investment.getInvestorId(),
-                            investment.getPercentageOwned(property.getPrice())
-                    ));
-        }
-    }
-
 }

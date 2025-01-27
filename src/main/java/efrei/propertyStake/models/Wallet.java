@@ -1,24 +1,38 @@
 package efrei.propertyStake.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(name = "wallets")
 public class Wallet {
-    private UUID wallet_id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
     private double balance;
 
-    public Wallet() {}
+    // Relation OneToOne : le wallet appartient à un seul Investor
+    @OneToOne
+    @JoinColumn(name = "investor_id")
+    @JsonBackReference
+    private Investor investor;
 
-    public Wallet(UUID wallet_id, double balance) {
-        this.wallet_id = wallet_id;
+    public Wallet() {
+    }
+
+    public Wallet(double balance) {
         this.balance = balance;
     }
 
-    // Getters and Setters
+    // Getters / Setters
     public UUID getId() {
-        return wallet_id;
+        return id;
     }
-    public void setId(UUID wallet_id) {
-        this.wallet_id = wallet_id;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public double getBalance() {
@@ -26,5 +40,12 @@ public class Wallet {
     }
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public Investor getInvestor() {
+        return investor;
+    }
+    public void setInvestor(Investor investor) {
+        this.investor = investor;
     }
 }

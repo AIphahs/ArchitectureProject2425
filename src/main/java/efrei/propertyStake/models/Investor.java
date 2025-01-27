@@ -1,40 +1,60 @@
 package efrei.propertyStake.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table(name = "investors")
 public class Investor extends User {
-    private UUID investor_id;
-    private UUID user_id;
-    private UUID wallet_id;
+    // Relation OneToOne vers le Wallet
+    @OneToOne(mappedBy = "investor", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Wallet wallet;
 
-    public Investor() {}
+    // Liste d'investments (un investor peut avoir plusieurs investissements)
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Investment> investments = new ArrayList<>();
 
-    public Investor(UUID user_id, String firstname, String lastname, String email, String password, String user_type, UUID wallet_id) {
-        super(user_id, firstname, lastname, email, password, user_type);
-        this.wallet_id = wallet_id;
-    }
+    // Liste de notifications
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Notification> notifications = new ArrayList<>();
 
-    // Getters and Setters
-    @Override
-    public UUID getId() {
-        return investor_id;
-    }
-    @Override
-    public void setId(UUID investor_id) {
-        this.investor_id = investor_id;
-    }
-
-    public UUID getUserId() {
-        return user_id;
-    }
-    public void setUserId(UUID user_id) {
-        this.user_id = user_id;
+    public Investor() {
+        super();
+        super.setUserType("INVESTOR");
     }
 
-    public UUID getWalletId() {
-        return wallet_id;
+    public Investor(String firstname, String lastname, String email, String password) {
+        super(firstname, lastname, email, password, "INVESTOR");
     }
-    public void setWalletId(UUID wallet_id) {
-        this.wallet_id = wallet_id;
+
+    // Getters / Setters
+    public Wallet getWallet() {
+        return wallet;
+    }
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+        if (wallet != null) {
+            wallet.setInvestor(this);
+        }
+    }
+
+    public List<Investment> getInvestments() {
+        return investments;
+    }
+    public void setInvestments(List<Investment> investments) {
+        this.investments = investments;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

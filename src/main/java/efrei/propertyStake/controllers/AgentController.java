@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/agents")
+@RequestMapping("/agents")
 public class AgentController {
+
     private final AgentService agentService;
 
     public AgentController(AgentService agentService) {
@@ -17,22 +18,27 @@ public class AgentController {
     }
 
     @PostMapping
-    public Agent addAgent(@RequestBody Agent agent) {
-        return agentService.addAgent(agent);
+    public Agent createAgent(@RequestBody Agent agent) {
+        return agentService.createAgent(agent);
     }
 
     @GetMapping
-    public List<Agent> listAgents() {
-        return agentService.listAgents();
+    public List<Agent> getAllAgents() {
+        return agentService.getAllAgents();
     }
 
     @GetMapping("/{id}")
-    public Agent getAgent(@PathVariable UUID id) {
-        return agentService.getAgent(id);
+    public Agent getAgentById(@PathVariable UUID id) {
+        return agentService.getAgentById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Agent updateAgent(@PathVariable UUID id, @RequestBody Agent updatedAgent) {
+        return agentService.updateAgent(id, updatedAgent);
     }
 
     @DeleteMapping("/{id}")
-    public void removeAgent(@PathVariable UUID id) {
-        agentService.removeAgent(id);
+    public boolean deleteAgent(@PathVariable UUID id) {
+        return agentService.deleteAgent(id);
     }
 }

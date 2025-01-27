@@ -1,8 +1,16 @@
 package efrei.propertyStake.models;
+import jakarta.persistence.*;
 
 import java.util.UUID;
+import java.util.UUID;
 
+@Entity
+@Table(name = "users") // Table "users"
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID user_id;
     private String firstname;
     private String lastname;
@@ -12,8 +20,8 @@ public class User {
 
     public User() {}
 
-    public User(UUID user_id, String firstname, String lastname, String email, String password, String user_type) {
-        this.user_id = user_id;
+    public User(String firstname, String lastname, String email, String password, String user_type) {
+
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;

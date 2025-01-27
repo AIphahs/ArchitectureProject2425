@@ -1,68 +1,75 @@
 package efrei.propertyStake.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
+@Table(name = "investments")
 public class Investment {
-    private UUID investment_id;
-    private UUID property_id;
-    private UUID wallet_id;
-    private UUID investor_id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    // L'investisseur qui investit
+    @ManyToOne
+    @JoinColumn(name = "investor_id")
+    @JsonBackReference
+    private Investor investor;
+
+    // La propriété dans laquelle on investit
+    @ManyToOne
+    @JoinColumn(name = "property_id")
+    private Property property;
+
     private double amount;
+    private LocalDateTime investmentDate;  // Date à laquelle on a investi
 
-    public Investment() {}
+    public Investment() {
+    }
 
-    public Investment(UUID investment_id, UUID property_id, UUID wallet_id, UUID investor_id, double amount) {
-        this.investment_id = investment_id;
-        this.property_id = property_id;
-        this.wallet_id = wallet_id;
-        this.investor_id = investor_id;
+    public Investment(Investor investor, Property property, double amount, LocalDateTime investmentDate) {
+        this.investor = investor;
+        this.property = property;
         this.amount = amount;
+        this.investmentDate = investmentDate;
     }
 
-    // Getters and Setters
+    // Getters / Setters
     public UUID getId() {
-        return investment_id;
+        return id;
     }
-    public void setId(UUID investment_id) {
-        this.investment_id = investment_id;
-    }
-
-    public UUID getPropertyId() {
-        return property_id;
-    }
-    public void setPropertyId(UUID property_id) {
-        this.property_id = property_id;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UUID getWalletId() {
-        return wallet_id;
+    public Investor getInvestor() {
+        return investor;
     }
-    public void setWalletId(UUID wallet_id) {
-        this.wallet_id = wallet_id;
+    public void setInvestor(Investor investor) {
+        this.investor = investor;
     }
 
-    public UUID getInvestorId() {
-        return investor_id;
+    public Property getProperty() {
+        return property;
     }
-    public void setInvestorId(UUID investor_id) {
-        this.investor_id = investor_id;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public double getAmount() {
         return amount;
     }
     public void setAmount(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be positive.");
-        }
         this.amount = amount;
     }
 
-    // Method to calculate the percentage of ownership
-    public double getPercentageOwned(double totalPropertyPrice) {
-        if (totalPropertyPrice <= 0) {
-            throw new IllegalArgumentException("Total property price must be positive.");
-        }
-        return (amount / totalPropertyPrice) * 100;
+    public LocalDateTime getInvestmentDate() {
+        return investmentDate;
+    }
+    public void setInvestmentDate(LocalDateTime investmentDate) {
+        this.investmentDate = investmentDate;
     }
 }

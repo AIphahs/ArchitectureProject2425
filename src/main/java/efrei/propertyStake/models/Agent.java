@@ -1,40 +1,43 @@
 package efrei.propertyStake.models;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+
+@Entity
+@Table(name = "agents")
 public class Agent extends User {
-    private UUID agent_id;
-    private UUID user_id;
+
     private String agencyName;
 
-    public Agent() {}
 
-    public Agent(UUID user_id, String firstname, String lastname, String email, String password, String user_type, String agencyName) {
-        super(user_id, firstname, lastname, email, password, user_type);
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Property> properties = new ArrayList<>();
+    public Agent() {
+        super();
+        super.setUserType("AGENT");
+    }
+
+    public Agent(String firstname, String lastname, String email, String password, String agencyName) {
+        super(firstname, lastname, email, password, "AGENT");
         this.agencyName = agencyName;
     }
 
-    // Getters and Setters
-    @Override
-    public UUID getId() {
-        return agent_id;
-    }
-    @Override
-    public void setId(UUID agent_id) {
-        this.agent_id = agent_id;
-    }
-
-    public UUID getUserId() {
-        return user_id;
-    }
-    public void setUserId(UUID user_id) {
-        this.user_id = user_id;
-    }
-
+    // Getters / Setters
     public String getAgencyName() {
         return agencyName;
     }
     public void setAgencyName(String agencyName) {
         this.agencyName = agencyName;
+    }
+
+    public List<Property> getProperties() {
+        return properties;
+    }
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
     }
 }
