@@ -68,4 +68,9 @@ public class InvestmentController {
             this.amount = amount;
         }
     }
+
+    @GetMapping("/property/{propertyId}")
+    public List<Investment> getInvestmentsByProperty(@PathVariable UUID propertyId) {
+        return investmentService.getInvestmentsByProperty(propertyId);
+    }
 }
