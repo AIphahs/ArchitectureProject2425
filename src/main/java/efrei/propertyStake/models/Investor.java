@@ -11,12 +11,12 @@ import java.util.UUID;
 public class Investor extends User {
     // Relation OneToOne vers le Wallet
     @OneToOne(mappedBy = "investor", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "investor-wallet")
     private Wallet wallet;
 
     // Liste d'investments (un investor peut avoir plusieurs investissements)
     @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "investor-investments")
     private List<Investment> investments = new ArrayList<>();
 
     // Liste de notifications

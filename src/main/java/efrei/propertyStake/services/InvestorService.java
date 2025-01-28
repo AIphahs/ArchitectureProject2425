@@ -47,7 +47,7 @@ public class InvestorService {
             existing.setLastname(updatedInvestor.getLastname());
             existing.setEmail(updatedInvestor.getEmail());
             existing.setPassword(updatedInvestor.getPassword());
-            // ... etc.
+
             return investorRepository.save(existing);
         }
         return null;

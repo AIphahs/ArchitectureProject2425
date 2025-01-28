@@ -79,4 +79,8 @@ public class InvestmentService {
     public void deleteInvestment(UUID id) {
         investmentRepository.deleteById(id);
     }
+
+    public List<Investment> getInvestmentsByProperty(UUID propertyId) {
+        return investmentRepository.findByPropertyId(propertyId);
+    }
 }

@@ -16,12 +16,13 @@ public class Investment {
     // L'investisseur qui investit
     @ManyToOne
     @JoinColumn(name = "investor_id")
-    @JsonBackReference
+    @JsonBackReference(value = "investor-investments")
     private Investor investor;
 
     // La propriété dans laquelle on investit
     @ManyToOne
     @JoinColumn(name = "property_id")
+    @JsonBackReference(value = "property-investments")
     private Property property;
 
     private double amount;

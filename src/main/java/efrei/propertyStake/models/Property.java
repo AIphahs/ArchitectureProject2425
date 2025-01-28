@@ -1,6 +1,7 @@
 package efrei.propertyStake.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class Property {
 
     // Relation OneToMany vers Investment
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference(value = "property-investments")
     private List<Investment> investments = new ArrayList<>();
 
     public Property() {
