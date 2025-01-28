@@ -16,7 +16,7 @@ public class Notification {
     // On notifie un investisseur (vous pouvez notifier aussi un Agent, si besoin)
     @ManyToOne
     @JoinColumn(name = "investor_id")
-    @JsonBackReference
+    @JsonBackReference(value = "investor-notification")
     private Investor investor;
 
     private String message;

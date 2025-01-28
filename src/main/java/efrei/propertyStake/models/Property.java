@@ -1,7 +1,7 @@
 package efrei.propertyStake.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ public class Property {
     private String name;
     private double price;                 // Prix total de la propriété
     private double fundedAmount;          // Montant déjà investi
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate fundingDeadline;    // Date limite de funding
     private boolean fundingOpen;          // Indique si la propriété est encore ouverte au funding
 
@@ -27,15 +28,17 @@ public class Property {
 
     private String type; // "apartment", "building", etc.
 
+    private boolean certificateDelivered = false;
+
     // Relation ManyToOne vers l'Agent
     @ManyToOne
     @JoinColumn(name = "agent_id")
-    @JsonBackReference
+    @JsonBackReference(value = "agent-property")
     private Agent agent;
 
     // Relation OneToMany vers Investment
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "property-investments")
+    @JsonBackReference
     private List<Investment> investments = new ArrayList<>();
 
     public Property() {
@@ -131,4 +134,11 @@ public class Property {
         this.investments = investments;
     }
 
+    public void setCertificateDelivered(boolean certificateDelivered) {
+        this.certificateDelivered = certificateDelivered;
+    }
+
+    public boolean isCertificateDelivered() {
+        return certificateDelivered;
+    }
 }

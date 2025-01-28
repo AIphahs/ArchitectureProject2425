@@ -56,4 +56,19 @@ public class PropertyService {
     public List<Property> getOpenPropertiesLimited() {
         return propertyRepository.findTop6ByFundingOpenTrueOrderByFundingDeadlineAsc();
     }
+
+    public Property deliverCertificate(UUID propertyId) {
+        Property prop = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+
+        // Vérifier si fundedAmount >= price
+        if (prop.getFundedAmount() < prop.getPrice()) {
+            throw new RuntimeException("Property is not fully funded yet");
+        }
+
+        // On met le champ certificateDelivered = true
+        prop.setCertificateDelivered(true);
+        return propertyRepository.save(prop);
+    }
+
 }

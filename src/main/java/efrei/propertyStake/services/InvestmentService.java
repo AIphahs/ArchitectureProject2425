@@ -3,9 +3,11 @@ package efrei.propertyStake.services;
 import efrei.propertyStake.models.Investment;
 import efrei.propertyStake.models.Investor;
 import efrei.propertyStake.models.Property;
+import efrei.propertyStake.models.Wallet;
 import efrei.propertyStake.repository.InvestmentRepository;
 import efrei.propertyStake.repository.InvestorRepository;
 import efrei.propertyStake.repository.PropertyRepository;
+import efrei.propertyStake.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,13 +21,16 @@ public class InvestmentService {
     private final InvestmentRepository investmentRepository;
     private final InvestorRepository investorRepository;
     private final PropertyRepository propertyRepository;
+    private final WalletRepository walletRepository;
 
     public InvestmentService(InvestmentRepository investmentRepository,
                              InvestorRepository investorRepository,
-                             PropertyRepository propertyRepository) {
+                             PropertyRepository propertyRepository,
+                             WalletRepository walletRepository) {
         this.investmentRepository = investmentRepository;
         this.investorRepository = investorRepository;
         this.propertyRepository = propertyRepository;
+        this.walletRepository = walletRepository;
     }
 
     public List<Investment> getAllInvestments() {
@@ -41,47 +46,76 @@ public class InvestmentService {
      * Vérifie la propriété, l'investisseur, et met à jour le fundedAmount.
      */
     public Investment invest(UUID investorId, UUID propertyId, double amount) {
-        // Récupérer l'investor
-        Investor investor = investorRepository.findById(investorId).orElseThrow(
-                () -> new RuntimeException("Investor not found"));
+        // 1. Récupérer l'investor
+        Investor investor = investorRepository.findById(investorId)
+                .orElseThrow(() -> new RuntimeException("Investor not found"));
 
-        // Récupérer la propriété
-        Property property = propertyRepository.findById(propertyId).orElseThrow(
-                () -> new RuntimeException("Property not found"));
+        // 2. Vérifier le wallet de l'investor
+        Wallet wallet = investor.getWallet();
+        if (wallet == null) {
+            throw new RuntimeException("Investor does not have a wallet");
+        }
 
-        // Vérifier si fundingOpen + deadline pas dépassée, etc.
+        // 3. Vérifier si le montant investi est >= 500 EUR
+        if (amount < 500) {
+            throw new RuntimeException("Minimum investment is 500 EUR");
+        }
+
+        // 4. Vérifier que le wallet a assez de fonds pour cet investissement
+        if (wallet.getBalance() < amount) {
+            throw new RuntimeException("Insufficient wallet balance for this investment");
+        }
+
+        // 5. Récupérer la propriété
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+
+        // 6. Vérifier si la propriété est encore ouverte au funding
         if (!property.isFundingOpen()) {
             throw new RuntimeException("Property is not open for funding");
         }
-        // Vérifier si on ne dépasse pas price
+
+        // 7. Vérifier qu'on ne dépasse pas le prix total
         double totalAfterInvestment = property.getFundedAmount() + amount;
         if (totalAfterInvestment > property.getPrice()) {
             throw new RuntimeException("Investment exceeds property funding limit");
         }
 
-        // Créer l'Investment
+
+        // 8. Débiter le wallet
+        double oldBalance = wallet.getBalance();
+        wallet.setBalance(oldBalance - amount);
+        walletRepository.save(wallet);
+
+        // 9. Créer l'Investment
         Investment investment = new Investment(investor, property, amount, LocalDateTime.now());
 
-        // Mettre à jour la propriété
+        // 10. Mettre à jour la propriété
         property.setFundedAmount(totalAfterInvestment);
+
         // Si fundedAmount == price => on peut fermer la propriété
         if (totalAfterInvestment >= property.getPrice()) {
             property.setFundingOpen(false);
         }
 
-        // Sauvegarder
+        // 11. Sauvegarder l'investment et la propriété
         Investment saved = investmentRepository.save(investment);
         propertyRepository.save(property);
 
         return saved;
     }
 
+
     public void deleteInvestment(UUID id) {
         investmentRepository.deleteById(id);
     }
 
     public List<Investment> getInvestmentsByProperty(UUID propertyId) {
-        return investmentRepository.findByPropertyId(propertyId);
+        Property property = propertyRepository.findById(propertyId).orElseThrow(
+                () -> new RuntimeException("Property not found"));
+
+        // Récupérez tous les investissements liés à cette propriété
+        return investmentRepository.findByProperty(property);
     }
 
     public List<Investment> getInvestmentsByInvestor(UUID investorId) {

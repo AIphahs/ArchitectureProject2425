@@ -46,4 +46,9 @@ public class PropertyController {
     public List<Property> getOpenProperties() {
         return propertyService.getOpenPropertiesLimited();
     }
+
+    @PutMapping("/{id}/deliverCertificate")
+    public Property deliverCertificate(@PathVariable UUID id) {
+        return propertyService.deliverCertificate(id);
+    }
 }
