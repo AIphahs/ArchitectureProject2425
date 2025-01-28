@@ -40,7 +40,6 @@ public class PropertyService {
             existing.setRentalIncomePercentage(updated.getRentalIncomePercentage());
             existing.setAppreciationRate(updated.getAppreciationRate());
             existing.setType(updated.getType());
-            // etc.
             return propertyRepository.save(existing);
         }
         return null;

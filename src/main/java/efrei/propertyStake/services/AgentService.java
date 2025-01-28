@@ -39,7 +39,6 @@ public class AgentService {
             existing.setPassword(updatedAgent.getPassword());
             existing.setUserType(updatedAgent.getUserType());
             existing.setAgencyName(updatedAgent.getAgencyName());
-            // etc.
             return agentRepository.save(existing);
         }
         return null;

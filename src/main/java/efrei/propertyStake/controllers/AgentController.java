@@ -2,13 +2,14 @@ package efrei.propertyStake.controllers;
 
 import efrei.propertyStake.models.Agent;
 import efrei.propertyStake.services.AgentService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/agents")
+@RequestMapping("/api/agents")
 public class AgentController {
 
     private final AgentService agentService;
@@ -18,9 +19,7 @@ public class AgentController {
     }
 
     @PostMapping
-    public Agent createAgent(@RequestBody Agent agent) {
-        return agentService.createAgent(agent);
-    }
+    public Agent createAgent(@RequestBody Agent agent) {return agentService.createAgent(agent);}
 
     @GetMapping
     public List<Agent> getAllAgents() {

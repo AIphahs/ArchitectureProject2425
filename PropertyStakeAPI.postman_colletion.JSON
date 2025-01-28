@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "Property Stake API",
+    "description": "Postman collection for testing Property Stake APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Agent API",
+      "item": [
+        {
+          "name": "Create Agent",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"firstname\": \"Alice\",\n \"lastname\": \"Dupont\",\n \"email\": \"alice.agent@example.com\",\n \"password\": \"mysecretpassword\",\n \"agencyName\": \"Magic Agency\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/agents",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "agents"]
+            }
+          }
+        },
+        {
+          "name": "Get All Agent",
+            "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "http://localhost:8080/api/agents",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "agents"]
+                }
+            }
+        },
+        {
+          "name": "Get Agent By ID",
+            "request": {
+                "method": "GET",
+                "url": {
+                "raw": "http://localhost:8080/api/agents/00000000-0000-0000-0000-000000000000",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "agents", "00000000-0000-0000-0000-000000000000"]
+                }
+            }
+        },
+        {
+          "name": "Update Agent",
+            "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n \"firstname\": \"Alice\",\n \"lastname\": \"Dupont\",\n \"email\": \"alice.dupont@example.com\",\n \"password\": \"mynewsecretpassword\",\n \"agencyName\": \"Magic Agency\"}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/agents/00000000-0000-0000-0000-000000000000",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "agents", "00000000-0000-0000-0000-000000000000"]
+                }
+            }
+        },
+        {
+          "name": "Delete Agent",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                "raw": "http://localhost:8080/api/agents/00000000-0000-0000-0000-000000000000",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "agents", "00000000-0000-0000-0000-000000000000"]
+                }
+            }
+        }
+      ]
+    }
+  ]
+}

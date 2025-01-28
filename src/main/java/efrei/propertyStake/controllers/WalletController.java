@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/wallets")
+@RequestMapping("/api/wallets")
 public class WalletController {
 
     private final WalletService walletService;
