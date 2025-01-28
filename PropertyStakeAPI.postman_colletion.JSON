@@ -6,6 +6,167 @@
   },
   "item": [
     {
+      "name": "User API",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{firstname\nlastname\nemail\npassword\nuser_type}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+            "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "http://localhost:8080/api/users",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api","users"]
+                }
+            }
+        },
+        {
+          "name": "Get User By ID",
+            "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "http://localhost:8080/api/users/00000000-0000-0000-0000-000000000000",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api","users","00000000-0000-0000-0000-000000000000"]
+                }
+            }
+        },
+        {
+          "name": "Update User",
+            "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/users/00000000-0000-0000-0000-000000000000",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api","users","00000000-0000-0000-0000-000000000000"]
+                }
+            }
+        }
+      ]
+    },
+
+
+    {
+      "name": "Investor API",
+        "item": [
+          {
+            "name": "Create Investor",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n \"firstname\": \"Bob\",\n \"lastname\": \"Lennon\",\n \"email\": \"bob.lenon@gmail.com\",\n \"password\": \"mysecretpassword2\"}"
+              },
+              "url": {
+                "raw": "http://localhost:8080/api/investors",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "investors"]
+              }
+            }
+          },
+          {
+            "name": "Get All Investors",
+              "request": {
+                  "method": "GET",
+                  "url": {
+                    "raw": "http://localhost:8080/api/investors",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "investors"]
+                  }
+              }
+          },
+          {
+            "name": "Get Investor By ID",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost:8080/api/investors/8688a90e-e8aa-4779-b790-2f9ed3517f43",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "investors", "8688a90e-e8aa-4779-b790-2f9ed3517f43"]
+              }
+            }
+          },
+          {
+            "name": "Update Investor",
+            "request": {
+              "method": "PUT",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n \"firstname\": \"Bob\",\n \"lastname\": \"Lennon\",\n \"email\": \"bob.lenon@gmail.com\",\n \"password\": \"myNEWsecretpassword2\"}"
+              },
+              "url": {
+                "raw": "http://localhost:8080/api/investors/8688a90e-e8aa-4779-b790-2f9ed3517f43",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "investors", "8688a90e-e8aa-4779-b790-2f9ed3517f43"]
+              }
+            }
+          },
+          {
+            "name": "Delete Investor",
+            "request": {
+              "method": "DELETE",
+              "url": {
+                "raw": "http://localhost:8080/api/investors/8688a90e-e8aa-4779-b790-2f9ed3517f43",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "investors", "8688a90e-e8aa-4779-b790-2f9ed3517f43"]
+              }
+            }
+          }
+        ]
+    },
+    {
       "name": "Agent API",
       "item": [
         {
@@ -46,11 +207,11 @@
             "request": {
                 "method": "GET",
                 "url": {
-                "raw": "http://localhost:8080/api/agents/00000000-0000-0000-0000-000000000000",
+                "raw": "http://localhost:8080/api/agents/bf34db9c-144a-4f74-b2c8-20b4c1178c5c",
                 "protocol": "http",
                 "host": ["localhost"],
                 "port": "8080",
-                "path": ["api", "agents", "00000000-0000-0000-0000-000000000000"]
+                "path": ["api", "agents", "bf34db9c-144a-4f74-b2c8-20b4c1178c5c"]
                 }
             }
         },
@@ -66,11 +227,11 @@
                   "raw": "{\n \"firstname\": \"Alice\",\n \"lastname\": \"Dupont\",\n \"email\": \"alice.dupont@example.com\",\n \"password\": \"mynewsecretpassword\",\n \"agencyName\": \"Magic Agency\"}"
                 },
                 "url": {
-                  "raw": "http://localhost:8080/api/agents/00000000-0000-0000-0000-000000000000",
+                  "raw": "http://localhost:8080/api/agents/bf34db9c-144a-4f74-b2c8-20b4c1178c5c",
                   "protocol": "http",
                   "host": ["localhost"],
                   "port": "8080",
-                  "path": ["api", "agents", "00000000-0000-0000-0000-000000000000"]
+                  "path": ["api", "agents", "bf34db9c-144a-4f74-b2c8-20b4c1178c5c"]
                 }
             }
         },
@@ -79,15 +240,211 @@
             "request": {
                 "method": "DELETE",
                 "url": {
-                "raw": "http://localhost:8080/api/agents/00000000-0000-0000-0000-000000000000",
+                "raw": "http://localhost:8080/api/agents/bf34db9c-144a-4f74-b2c8-20b4c1178c5c",
                 "protocol": "http",
                 "host": ["localhost"],
                 "port": "8080",
-                "path": ["api", "agents", "00000000-0000-0000-0000-000000000000"]
+                "path": ["api", "agents", "bf34db9c-144a-4f74-b2c8-20b4c1178c5c"]
                 }
             }
         }
       ]
+    },
+    {
+        "name": "Property API",
+        "item": [
+            {
+            "name": "Create Property",
+            "request": {
+                "method": "POST",
+                "header": [
+                { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n \"name\": \"Villa Dupont\",\n \"price\": 500000,\n \"fundingOpen\": false,\n \"rentalIncomePercentage\": 5.0,\n \"appreciationRate\": 2.0,\n \"type\": \"apartment\",\n \"fundingDeadline\": \"2025-12-31T23:59:59.999Z\"}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/properties",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "properties"]
+                }
+            }
+            },
+            {
+            "name": "Get All Properties",
+                "request": {
+                    "method": "GET",
+                    "url": {
+                      "raw": "http://localhost:8080/api/properties",
+                      "protocol": "http",
+                      "host": ["localhost"],
+                      "port": "8080",
+                      "path": ["api", "properties"]
+                    }
+                }
+            },
+            {
+            "name": "Get Property By ID",
+                "request": {
+                    "method": "GET",
+                    "url": {
+                    "raw": "http://localhost:8080/api/properties/52f8b08b-9fe9-4940-8f44-4ab675e8370a",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "properties", "52f8b08b-9fe9-4940-8f44-4ab675e8370a"]
+                    }
+                }
+            },
+            {
+            "name": "Update Property",
+                "request": {
+                  "method": "PUT",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": {
+                    "mode": "raw",
+                    "raw": "{\n \"name\": \"Villa Dupont\",\n \"price\": 550000,\n \"fundingOpen\": true,\n \"rentalIncomePercentage\": 5.0,\n \"appreciationRate\": 2.0,\n \"type\": \"apartment\",\n \"fundingDeadline\": \"2025-12-31T23:59:59.999Z\"}"
+                  },
+                  "url": {
+                    "raw": "http://localhost:8080/api/properties/52f8b08b-9fe9-4940-8f44-4ab675e8370a",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api","properties","52f8b08b-9fe9-4940-8f44-4ab675e8370a"]
+                  }
+                }
+            },
+            {
+            "name": "Delete Property",
+                "request": {
+                    "method": "DELETE",
+                    "url": {
+                    "raw": "http://localhost:8080/api/properties/52f8b08b-9fe9-4940-8f44-4ab675e8370a",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "properties", "52f8b08b-9fe9-4940-8f44-4ab675e8370a"]
+                    }
+                }
+            },
+            {
+            "name": "Get Open Properties",
+                "request": {
+                    "method": "GET",
+                    "url": {
+                    "raw": "http://localhost:8080/api/properties/open",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "properties", "open"]
+                    }
+                }
+            }
+        ]
+    },
+    {
+      "name": "Investment API",
+      "item": [
+        {
+          "name": "Create Investment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"investor\": \"63fdb046-9762-4d0d-af44-7f6da04d11e6\",\n \"property\": \"4f15ef71-e95c-4eb1-a2c4-d30218e60782\",\n \"amount\": 10000}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/investments/invest",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "investments","invest"]
+            }
+          }
+        },
+        {"name": "Get All Investments",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/investments",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "investments"]
+            }
+          }
+        },
+        {"name": "Get Investment By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/investments/00000000-0000-0000-0000-000000000000",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "investments", "00000000-0000-0000-0000-000000000000"]
+            }
+          }
+        },
+        {
+          "name": "Delete Investment",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8080/api/investments/00000000-0000-0000-0000-000000000000",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "investments", "00000000-0000-0000-0000-000000000000"]
+            }
+          }
+        },
+        {
+         "name": "Get Investments By Property ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/investments/property/4f15ef71-e95c-4eb1-a2c4-d30218e60782",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "investments", "property", "4f15ef71-e95c-4eb1-a2c4-d30218e60782"]
+            }
+          }
+        },
+        {
+          "name": "Get Investments By Investor ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/investments/investor/63fdb046-9762-4d0d-af44-7f6da04d11e6",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "investments", "investor", "63fdb046-9762-4d0d-af44-7f6da04d11e6"]
+            }
+          }
+        }
+      ]
+    },
+    {
+
     }
+
+
+
+
+
+
+
   ]
 }

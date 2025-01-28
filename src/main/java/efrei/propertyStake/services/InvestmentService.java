@@ -83,4 +83,8 @@ public class InvestmentService {
     public List<Investment> getInvestmentsByProperty(UUID propertyId) {
         return investmentRepository.findByPropertyId(propertyId);
     }
+
+    public List<Investment> getInvestmentsByInvestor(UUID investorId) {
+        return investmentRepository.findByInvestorId(investorId);
+    }
 }

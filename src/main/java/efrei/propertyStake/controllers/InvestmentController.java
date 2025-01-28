@@ -73,4 +73,9 @@ public class InvestmentController {
     public List<Investment> getInvestmentsByProperty(@PathVariable UUID propertyId) {
         return investmentService.getInvestmentsByProperty(propertyId);
     }
+
+    @GetMapping("/investor/{investorId}")
+    public List<Investment> getInvestmentsByInvestor(@PathVariable UUID investorId) {
+        return investmentService.getInvestmentsByProperty(investorId);
+    }
 }

@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface InvestmentRepository extends JpaRepository<Investment, UUID> {
     List<Investment> findByPropertyId(UUID propertyId);
+    List<Investment> findByInvestorId(UUID investorId);
 }
