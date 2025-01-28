@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/investments")
+@RequestMapping("/api/investments")
 public class InvestmentController {
 
     private final InvestmentService investmentService;
