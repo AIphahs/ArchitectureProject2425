@@ -17,7 +17,7 @@ public class Wallet {
     // Relation OneToOne : le wallet appartient à un seul Investor
     @OneToOne
     @JoinColumn(name = "investor_id")
-    @JsonBackReference
+    @JsonBackReference(value = "investor-wallet")
     private Investor investor;
 
     public Wallet() {

@@ -14,7 +14,7 @@ public class Agent extends User {
 
 
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "agent-property")
     private List<Property> properties = new ArrayList<>();
     public Agent() {
         super();
