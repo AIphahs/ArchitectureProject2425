@@ -189,10 +189,125 @@ Pour tester :
 
 
 
+### Use Case 6: Concurrency Management in Funding Sessions
 
+#### 6.1 Multiple Investors Funding the Same Property Simultaneously
+To manage concurrency when multiple investors are funding the same property at the same time, you need to implement a locking mechanism to prevent race conditions.
+**Example Implementation:**
+1. Lock the property record before processing any funding transaction.
+2. Check the current funded amount and the remaining amount required.
+3. Process the funding transaction if there is still room for the investment.
+4. Release the lock after updating the property record.
 
+**Sample API Call:**
+**POST**: `/investments/concurrent-fund`
+```json
+{
+  "investorId": "uuid-of-investor",
+  "propertyId": "uuid-of-property",
+  "amount": 10000.0 // Amount to invest
+}
+```
+**Response:**
+```json
+{
+  "status": "SUCCESS",
+  "message": "Investment processed successfully."
+}
+```
 
+### Use Case 7: External Payment Gateway Integration (Stripe)
 
+#### 7.1 Funding Wallet via Credit Card
+Integrate Stripe to handle credit card payments and top up the wallet.
+**Example Implementation:**
+1. Create a payment intent with Stripe.
+2. Confirm the payment with the provided payment method.
+3. On successful payment, credit the investor's wallet and send a receipt.
 
+**Sample API Call:**
+**POST**: `/payments/stripe`
+```json
+{
+  "investorId": "uuid-of-investor",
+  "amount": 5000.0, // Amount to add to wallet
+  "paymentMethodId": "pm_card_visa" // Stripe payment method ID
+}
+```
+**Response:**
+```json
+{
+  "status": "SUCCESS",
+  "message": "Payment processed successfully, wallet credited."
+}
+```
 
+### Use Case 8: Sending Receipts to Investors
 
+#### 8.1 Email Receipts After Successful Transactions
+After a successful funding transaction, send a receipt to the investor's email.
+**Example Implementation:**
+1. Integrate an email service (like SendGrid) to send receipts.
+2. Trigger the email sending function after a successful transaction.
+
+**Sample API Call:**
+**POST**: `/receipts/send`
+```json
+{
+  "investorId": "uuid-of-investor",
+  "transactionId": "uuid-of-transaction",
+  "email": "investor@example.com"
+}
+```
+**Response:**
+```json
+{
+  "status": "SUCCESS",
+  "message": "Receipt sent to investor's email."
+}
+```
+
+### Use Case 9: Scalability for High Traffic
+
+#### 9.1 Scaling the System for High Transaction Volumes
+Ensure the system is capable of handling high volumes of transactions during peak times.
+
+**Example Implementation:**
+1. Use a load balancer to distribute incoming requests across multiple servers.
+2. Implement horizontal scaling to add more servers when needed.
+3. Optimize database queries and use caching to reduce load on the database.
+
+**Configuration:**
+- Use AWS Elastic Load Balancing (ELB) or similar services.
+- Set up auto-scaling groups in your cloud provider (e.g., AWS, Azure).
+- Use Redis or Memcached for caching frequently accessed data.
+
+### Example Scenarios for Testing
+
+#### 9.2 Test Scenario: High Concurrency Funding
+1. Simulate multiple investors funding the same property at the same time.
+2. Ensure no race conditions occur and all transactions are processed accurately.
+
+**Sample API Call:**
+**POST**: `/investments/concurrent-fund`
+```json
+{
+  "investorId": "uuid-of-investor",
+  "propertyId": "uuid-of-property",
+  "amount": 5000.0 // Amount to invest
+}
+```
+
+#### 9.3 Test Scenario: High Volume Payments
+1. Simulate a high number of wallet top-up requests via Stripe.
+2. Ensure the payment gateway handles the load and all wallets are credited correctly.
+
+**Sample API Call:**
+**POST**: `/payments/stripe`
+```json
+{
+  "investorId": "uuid-of-investor",
+  "amount": 1000.0, // Amount to add to wallet
+  "paymentMethodId": "pm_card_visa" // Stripe payment method ID
+}
+```
