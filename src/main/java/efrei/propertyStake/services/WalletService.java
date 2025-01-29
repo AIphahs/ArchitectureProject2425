@@ -4,6 +4,8 @@ import efrei.propertyStake.models.Wallet;
 import efrei.propertyStake.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +13,7 @@ import java.util.UUID;
 public class WalletService {
 
     private final WalletRepository walletRepository;
+    private final PaymentGatewayService paymentGatewayService;
 
     public WalletService(WalletRepository walletRepository) {
         this.walletRepository = walletRepository;
@@ -43,5 +46,21 @@ public class WalletService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public String addFundsToWallet(String investorId, double amount, String paymentMethodId) {
+        // Étape 1: Effectuer le paiement via Stripe
+        String transactionId = paymentGatewayService.processPayment(paymentMethodId, amount);
+
+        // Étape 2: Trouver le Wallet de l'investisseur
+        Wallet wallet = walletRepository.findById(UUID.fromString(investorId))
+                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+        // Étape 3: Ajouter l'argent au Wallet
+        wallet.setBalance(wallet.getBalance() + amount);
+        walletRepository.save(wallet);
+
+        return transactionId; // Retourne l'ID de la transaction Stripe
     }
 }
