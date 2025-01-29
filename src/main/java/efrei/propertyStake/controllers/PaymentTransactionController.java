@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/transactions")
 public class PaymentTransactionController {
 
     private final PaymentTransactionService paymentTransactionService;
@@ -74,5 +74,10 @@ public class PaymentTransactionController {
         public void setStatus(String status) {
             this.status = status;
         }
+    }
+
+    @PutMapping("/{id}")
+    public PaymentTransaction updateStatusTransaction(@PathVariable UUID id, @RequestBody PaymentRequest request) {
+        return paymentTransactionService.updateStatusTransaction(id, request.getStatus());
     }
 }

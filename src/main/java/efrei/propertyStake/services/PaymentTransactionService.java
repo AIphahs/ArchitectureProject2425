@@ -53,6 +53,13 @@ public class PaymentTransactionService {
         return paymentTransactionRepository.findAll();
     }
 
+    public PaymentTransaction updateStatusTransaction(UUID id, String status) {
+        PaymentTransaction transaction = paymentTransactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+        transaction.setStatus(status);
+        return paymentTransactionRepository.save(transaction);
+    }
+
     public boolean deleteTransaction(UUID id) {
         if (paymentTransactionRepository.existsById(id)) {
             paymentTransactionRepository.deleteById(id);

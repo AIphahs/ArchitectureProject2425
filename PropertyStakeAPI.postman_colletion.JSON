@@ -465,13 +465,85 @@
         }
       ]
     },
-
-
     {
       "name": "Notification API",
       "item": [
         {
-
+          "name": "Send Notification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"investorId\": \"63fdb046-9762-4d0d-af44-7f6da04d11e6\",\n \"message\": \"Hello Bob, your investment on the property 'Villa Dupont' has been approved\", \n \"creationDate\": \"2023-06-01T22:00:00\", \n \"status\": \"SENT\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/notifications",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Get All Notifications",
+            "request": {
+                "method": "GET",
+                "url": {
+                "raw": "http://localhost:8080/api/notifications",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "notifications"]
+                }
+            }
+        },
+        {
+          "name": "Get Notification By ID",
+            "request": {
+                "method": "GET",
+                "url": {
+                "raw": "http://localhost:8080/api/notifications/ ?????????????",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "notifications", " ?????????????"]
+                }
+            }
+        },
+        {
+          "name": "Update Notification",
+            "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n \"investorId\": \"63fdb046-9762-4d0d-af44-7f6da04d11e6\",\n \"message\": \"Hello Bob, your investment on the property 'Villa Dupont' has been approved\", \n \"creationDate\": \"2023-06-01T22:00:00\", \n \"status\": \"READ\"}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/notifications/613e7203-7474-4606-a8fb-d6193f30568d",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "notifications", "613e7203-7474-4606-a8fb-d6193f30568d"]
+                }
+            }
+        },
+        {
+          "name": "Delete Notification",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                "raw": "http://localhost:8080/api/notifications/613e7203-7474-4606-a8fb-d6193f30568d",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "8080",
+                "path": ["api", "notifications", "613e7203-7474-4606-a8fb-d6193f30568d"]
+                }
+            }
         }
       ]
     },
@@ -479,7 +551,79 @@
       "name": "Payment Transaction API",
       "item": [
         {
-
+          "name": "Create Payment Transaction",
+          "request": {
+             "method": "POST",
+             "header": [{ "key": "Content-Type", "value": "application/json" }],
+             "body": {
+               "mode": "raw",
+               "raw": "{\n \"amount\": 10000,\n \"status\": \"PENDING\", \n \"investorId\": \"4d336517-afc0-43f4-85ee-5617585ee34e\"}"
+             },
+             "url": {
+               "raw": "http://localhost:8080/api/transactions",
+               "protocol": "http",
+               "host": ["localhost"],
+               "port": "8080",
+               "path": ["api", "transactions"]
+             }
+          }
+        },
+        {
+          "name": "Get All Payment Transactions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/transactions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "transactions"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment Transaction By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/87870d9d-e0a1-4f8e-b9b0-46313a5fed8e",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "transactions", "87870d9d-e0a1-4f8e-b9b0-46313a5fed8e"]
+            }
+          }
+        },
+        {
+          "name": "Update Payment Transaction",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"APPROUVED\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/87870d9d-e0a1-4f8e-b9b0-46313a5fed8e",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "transactions", "87870d9d-e0a1-4f8e-b9b0-46313a5fed8e"]
+            }
+          }
+        },
+        {
+          "name": "Delete Payment Transaction",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/87870d9d-e0a1-4f8e-b9b0-46313a5fed8e",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "transactions", "87870d9d-e0a1-4f8e-b9b0-46313a5fed8e"]
+            }
+          }
         }
       ]
     }
