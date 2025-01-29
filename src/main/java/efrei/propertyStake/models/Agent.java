@@ -13,7 +13,7 @@ public class Agent extends User {
     private String agencyName;
 
 
-    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "agent-property")
     private List<Property> properties = new ArrayList<>();
     public Agent() {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/funding")
+@RequestMapping("/api/funding")
 public class FundingDeadlineController {
 
     private final FundingDeadlineService fundingDeadlineService;

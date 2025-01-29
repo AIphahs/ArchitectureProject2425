@@ -1,18 +1,37 @@
 package efrei.propertyStake.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.UUID;
 
+@Entity
+@Table(name = "shareCertificate")
 public class ShareCertificate {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID shareCert_id;
-    private UUID property_id;
-    private UUID investor_id;
-    private double percentage_owned;
-    private java.time.LocalDate issueDate;
 
-    public ShareCertificate(UUID shareCert_id, UUID property_id, UUID investor_id, double percentage_owned) {
-        this.shareCert_id = shareCert_id;
-        this.property_id = property_id;
-        this.investor_id = investor_id;
+    @ManyToOne
+    @JoinColumn(name = "property_id", nullable = false)
+    @JsonBackReference(value = "property-share")
+    private Property property;
+
+    @ManyToOne
+    @JoinColumn(name = "investor_id", nullable = false)
+    @JsonBackReference(value = "investor-share")
+    private Investor investor;
+
+    private double percentage_owned;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate issueDate;
+
+    public ShareCertificate(Property property, Investor investor, double percentage_owned) {
+        this.property = property;
+        this.investor = investor;
         this.percentage_owned = percentage_owned;
     }
 
@@ -26,18 +45,18 @@ public class ShareCertificate {
         this.shareCert_id = shareCert_id;
     }
 
-    public UUID getProperty_id() {
-        return property_id;
+    public Property getProperty() {
+        return property;
     }
-    public void setProperty_id(UUID property_id) {
-        this.property_id = property_id;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
-    public UUID getInvestor_id() {
-        return investor_id;
+    public Investor getInvestor() {
+        return investor;
     }
-    public void setInvestor_id(UUID investor_id) {
-        this.investor_id = investor_id;
+    public void setInvestor(Investor investor_id) {
+        this.investor = investor_id;
     }
 
     public double getPercentage_owned() {

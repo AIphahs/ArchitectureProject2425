@@ -19,6 +19,11 @@ public class Investor extends User {
     @JsonManagedReference(value = "investor-investment")
     private List<Investment> investments = new ArrayList<>();
 
+    // Liste de ShareCertificates (un investor peut avoir plusieurs certificats de parts)
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "investor-share")
+    private List<ShareCertificate> shareCertificates = new ArrayList<>();
+
     // Liste de notifications
     @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "investor-notification")
@@ -50,6 +55,9 @@ public class Investor extends User {
     public void setInvestments(List<Investment> investments) {
         this.investments = investments;
     }
+
+    public List<ShareCertificate> getShareCertificates() {return shareCertificates;}
+    public void setShareCertificates(List<ShareCertificate> shareCertificates) {this.shareCertificates = shareCertificates;}
 
     public List<Notification> getNotifications() {
         return notifications;

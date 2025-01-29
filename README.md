@@ -2,11 +2,16 @@
 
 ## Étape 1 : Démarrer le Docker
 
-Dans le dossier `src/main/resources`, exécutez:
+A la racine du projet, exécutez:
 ```bash
+cd .\src\main\resources\
 docker-compose up -d
 ```
-Ensuite, lancez l'application.
+## Étape 2 : Lanccer l'application
+'''bash
+mvn clean install
+mvn spring-boot:run
+'''
 
 ## Tests :
 

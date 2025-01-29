@@ -13,15 +13,14 @@ public class Investment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    // L'investisseur qui investit
     @ManyToOne
     @JoinColumn(name = "investor_id")
     @JsonBackReference(value = "investor-investment")
     private Investor investor;
 
-    // La propriété dans laquelle on investit
     @ManyToOne
     @JoinColumn(name = "property_id")
+    @JsonBackReference(value = "property-investment")
     private Property property;
 
     private double amount;

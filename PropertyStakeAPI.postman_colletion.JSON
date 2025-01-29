@@ -6,84 +6,6 @@
   },
   "item": [
     {
-      "name": "User API",
-      "item": [
-        {
-          "name": "Create User",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{firstname\nlastname\nemail\npassword\nuser_type}"
-            },
-            "url": {
-              "raw": "http://localhost:8080/api/users",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "users"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get All Users",
-            "request": {
-                "method": "GET",
-                "url": {
-                  "raw": "http://localhost:8080/api/users",
-                  "protocol": "http",
-                  "host": ["localhost"],
-                  "port": "8080",
-                  "path": ["api","users"]
-                }
-            }
-        },
-        {
-          "name": "Get User By ID",
-            "request": {
-                "method": "GET",
-                "url": {
-                  "raw": "http://localhost:8080/api/users/00000000-0000-0000-0000-000000000000",
-                  "protocol": "http",
-                  "host": ["localhost"],
-                  "port": "8080",
-                  "path": ["api","users","00000000-0000-0000-0000-000000000000"]
-                }
-            }
-        },
-        {
-          "name": "Update User",
-            "request": {
-                "method": "PUT",
-                "header": [
-                  { "key": "Content-Type", "value": "application/json" }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": ""
-                },
-                "url": {
-                  "raw": "http://localhost:8080/api/users/00000000-0000-0000-0000-000000000000",
-                  "protocol": "http",
-                  "host": ["localhost"],
-                  "port": "8080",
-                  "path": ["api","users","00000000-0000-0000-0000-000000000000"]
-                }
-            }
-        }
-      ]
-    },
-
-
-    {
       "name": "Investor API",
         "item": [
           {
@@ -262,7 +184,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n \"name\": \"Villa Dupont\",\n \"price\": 500000,\n \"fundingOpen\": false,\n \"rentalIncomePercentage\": 5.0,\n \"appreciationRate\": 2.0,\n \"type\": \"apartment\",\n \"fundingDeadline\": \"2025-12-31T23:59:59.999Z\"}"
+                  "raw": "{\n \"name\": \"Villa Dupont\",\n \"price\": 500000,\n \"fundingOpen\": false,\n \"rentalIncomePercentage\": 5.0,\n \"appreciationRate\": 2.0,\n \"type\": \"apartment\",\n \"fundingDeadline\": \"2025-12-31\"}"
                 },
                 "url": {
                   "raw": "http://localhost:8080/api/properties",
@@ -311,7 +233,7 @@
                   ],
                   "body": {
                     "mode": "raw",
-                    "raw": "{\n \"name\": \"Villa Dupont\",\n \"price\": 550000,\n \"fundingOpen\": true,\n \"rentalIncomePercentage\": 5.0,\n \"appreciationRate\": 2.0,\n \"type\": \"apartment\",\n \"fundingDeadline\": \"2025-12-31T23:59:59.999Z\"}"
+                    "raw": "{\n \"name\": \"SRC\",\n \"price\": 550000,\n \"fundingOpen\": true,\n \"rentalIncomePercentage\": 5.0,\n \"appreciationRate\": 2.0,\n \"type\": \"building\",\n \"fundingDeadline\": \"2024-12-31\"}"
                   },
                   "url": {
                     "raw": "http://localhost:8080/api/properties/52f8b08b-9fe9-4940-8f44-4ab675e8370a",
@@ -347,7 +269,25 @@
                     "path": ["api", "properties", "open"]
                     }
                 }
+            },
+          {
+            "name": "Deliver Share Certificate",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n \"property\": \"52f8b08b-9fe9-4940-8f44-4ab675e8370a\"}"
+                },
+                "url": {
+                    "raw": "http://localhost:8080/api/properties/52f8b08b-9fe9-4940-8f44-4ab675e8370/deliverCertificate",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "properties", "", "deliverCertificate"]
+                }
             }
+          }
         ]
     },
     {
@@ -360,7 +300,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n \"investor\": \"63fdb046-9762-4d0d-af44-7f6da04d11e6\",\n \"property\": \"4f15ef71-e95c-4eb1-a2c4-d30218e60782\",\n \"amount\": 10000}"
+              "raw": "{\n \"investorId\": \"63fdb046-9762-4d0d-af44-7f6da04d11e6\",\n \"propertyId\": \"3164c24b-42e3-4ea1-ab48-f29951b2091b\",\n \"amount\": 10000}"
             },
             "url": {
               "raw": "http://localhost:8080/api/investments/invest",
@@ -387,11 +327,11 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "http://localhost:8080/api/investments/00000000-0000-0000-0000-000000000000",
+              "raw": "http://localhost:8080/api/investments/3164c24b-42e3-4ea1-ab48-f29951b2091b",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "investments", "00000000-0000-0000-0000-000000000000"]
+              "path": ["api", "investments", "3164c24b-42e3-4ea1-ab48-f29951b2091b"]
             }
           }
         },
@@ -400,11 +340,11 @@
           "request": {
             "method": "DELETE",
             "url": {
-              "raw": "http://localhost:8080/api/investments/00000000-0000-0000-0000-000000000000",
+              "raw": "http://localhost:8080/api/investments/a6b8c6fa-14f3-4729-bf92-72a4b4e865e6",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "investments", "00000000-0000-0000-0000-000000000000"]
+              "path": ["api", "investments", "a6b8c6fa-14f3-4729-bf92-72a4b4e865e6"]
             }
           }
         },
@@ -413,11 +353,11 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "http://localhost:8080/api/investments/property/4f15ef71-e95c-4eb1-a2c4-d30218e60782",
+              "raw": "http://localhost:8080/api/investments/property/e49d5da9-1914-41a6-a185-a6670e5341cd",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "investments", "property", "4f15ef71-e95c-4eb1-a2c4-d30218e60782"]
+              "path": ["api", "investments", "property", "e49d5da9-1914-41a6-a185-a6670e5341cd"]
             }
           }
         },
@@ -426,25 +366,122 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "http://localhost:8080/api/investments/investor/63fdb046-9762-4d0d-af44-7f6da04d11e6",
+              "raw": "http://localhost:8080/api/investments/investor/4d336517-afc0-43f4-85ee-5617585ee34e",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "investments", "investor", "63fdb046-9762-4d0d-af44-7f6da04d11e6"]
+              "path": ["api", "investments", "investor", "4d336517-afc0-43f4-85ee-5617585ee34e"]
             }
           }
         }
       ]
     },
     {
+      "name": "Wallet API",
+      "item": [
+        {
+          "name": "Get All Wallets",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/wallets",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "wallets"]
+            }
+          }
+        },
+        {
+          "name": "Get Wallet By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/wallets/1850f380-7b22-4229-baaa-b34a3c28abaa",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "wallets", "1850f380-7b22-4229-baaa-b34a3c28abaa"]
+            }
+          }
+        },
+        {
+          "name": "Update balance Wallet",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "100000.0"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/wallets/1850f380-7b22-4229-baaa-b34a3c28abaa/balance",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","wallets","1850f380-7b22-4229-baaa-b34a3c28abaa", "balance"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Funding Deadline API",
+      "item": [
+        {
+          "name": "Check Funding Deadline",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8080/api/funding/checkDeadline",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "funding", "checkDeadline"]
+            }
+          }
+        }
+      ]
+    },
+    {"name": "Rental Income API",
+      "item": [
+        {
+          "name": "Distribute Rental Income",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8080/api/rental/distribute",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "rental", "distribute"]
+            }
+          }
+        }
+      ]
+    },
 
+
+    {
+      "name": "Notification API",
+      "item": [
+        {
+
+        }
+      ]
+    },
+    {
+      "name": "Payment Transaction API",
+      "item": [
+        {
+
+        }
+      ]
     }
-
-
-
-
-
-
-
   ]
 }

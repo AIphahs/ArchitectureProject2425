@@ -31,7 +31,7 @@ public class WalletService {
     public Wallet updateBalance(UUID walletId, double newBalance) {
         Wallet w = getWalletById(walletId);
         if (w != null) {
-            w.setBalance(newBalance);
+            w.setBalance(w.getBalance() + newBalance);
             return walletRepository.save(w);
         }
         return null;

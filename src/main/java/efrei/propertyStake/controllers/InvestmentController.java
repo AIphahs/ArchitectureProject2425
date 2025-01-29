@@ -1,7 +1,12 @@
 package efrei.propertyStake.controllers;
 
 import efrei.propertyStake.models.Investment;
+import efrei.propertyStake.models.Investor;
+import efrei.propertyStake.models.Property;
+import efrei.propertyStake.models.Wallet;
 import efrei.propertyStake.services.InvestmentService;
+import efrei.propertyStake.services.PropertyService;
+import efrei.propertyStake.services.WalletService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +17,13 @@ import java.util.UUID;
 public class InvestmentController {
 
     private final InvestmentService investmentService;
+    private final WalletService walletService;
+    private final PropertyService propertyService;
 
-    public InvestmentController(InvestmentService investmentService) {
+    public InvestmentController(InvestmentService investmentService, WalletService walletService, PropertyService propertyService) {
         this.investmentService = investmentService;
+        this.walletService = walletService;
+        this.propertyService = propertyService;
     }
 
     @GetMapping
@@ -39,6 +48,23 @@ public class InvestmentController {
 
     @DeleteMapping("/{id}")
     public void deleteInvestment(@PathVariable UUID id) {
+
+        Investment investment = investmentService.getInvestmentById(id);
+        if (investment == null) {
+            throw new RuntimeException("Investment not found");
+        }
+
+        Investor investor = investment.getInvestor();
+        Wallet wallet = investor.getWallet();
+        Property property = investment.getProperty();
+
+        double amount = investment.getAmount();
+        property.setFundedAmount(property.getFundedAmount() - amount);
+        double newWalletBalance = wallet.getBalance() + amount;
+
+        propertyService.updateProperty(property.getId(), property);
+        walletService.updateBalance(wallet.getId(), amount);
+
         investmentService.deleteInvestment(id);
     }
 
@@ -76,6 +102,6 @@ public class InvestmentController {
 
     @GetMapping("/investor/{investorId}")
     public List<Investment> getInvestmentsByInvestor(@PathVariable UUID investorId) {
-        return investmentService.getInvestmentsByProperty(investorId);
+        return investmentService.getInvestmentsByInvestor(investorId);
     }
 }

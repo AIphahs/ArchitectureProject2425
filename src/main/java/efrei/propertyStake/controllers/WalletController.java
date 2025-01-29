@@ -5,6 +5,7 @@ import efrei.propertyStake.services.WalletService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -33,7 +34,7 @@ public class WalletController {
     }
 
     @PutMapping("/{id}/balance")
-    public Wallet updateWalletBalance(@PathVariable UUID id, @RequestParam double balance) {
+    public Wallet updateWalletBalance(@PathVariable UUID id, @RequestBody double balance) {
         return walletService.updateBalance(id, balance);
     }
 

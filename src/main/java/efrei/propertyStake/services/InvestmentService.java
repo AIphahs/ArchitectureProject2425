@@ -115,7 +115,7 @@ public class InvestmentService {
                 () -> new RuntimeException("Property not found"));
 
         // Récupérez tous les investissements liés à cette propriété
-        return investmentRepository.findByProperty(property);
+        return investmentRepository.findByPropertyId(propertyId);
     }
 
     public List<Investment> getInvestmentsByInvestor(UUID investorId) {

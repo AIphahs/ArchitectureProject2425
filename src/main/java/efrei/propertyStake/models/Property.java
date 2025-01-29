@@ -2,6 +2,7 @@ package efrei.propertyStake.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,8 +39,13 @@ public class Property {
 
     // Relation OneToMany vers Investment
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference(value = "property-investment")
     private List<Investment> investments = new ArrayList<>();
+
+    // Relation OneToMany vers ShareCertificate
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "property-share")
+    private List<ShareCertificate> shareCertificates = new ArrayList<>();
 
     public Property() {
     }
@@ -133,6 +139,9 @@ public class Property {
     public void setInvestments(List<Investment> investments) {
         this.investments = investments;
     }
+
+    public List<ShareCertificate> getShareCertificates() {return shareCertificates;}
+    public void setShareCertificates(List<ShareCertificate> shareCertificates) {this.shareCertificates = shareCertificates;}
 
     public void setCertificateDelivered(boolean certificateDelivered) {
         this.certificateDelivered = certificateDelivered;
