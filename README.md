@@ -8,10 +8,10 @@ cd .\src\main\resources\
 docker-compose up -d
 ```
 ## Étape 2 : Lancer l'application
-'''bash
+```bash
 mvn clean install
 mvn spring-boot:run
-'''
+```
 
 ## Tests :
 
