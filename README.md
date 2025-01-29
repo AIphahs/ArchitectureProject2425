@@ -7,11 +7,19 @@ A la racine du projet, exécutez:
 cd .\src\main\resources\
 docker-compose up -d
 ```
+
 ## Étape 2 : Lancer l'application
+
+A la racine du projet, exécutez:
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
+
+## Étape 3 : Importer le projet postman
+
+Dans postman importer le JSON ```PropertyStakeAPI.postman_colletion.JSON``` se situant à la racine du projet.
+
 
 ## Tests :
 
