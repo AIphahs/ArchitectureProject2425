@@ -11,8 +11,9 @@ public class PaymentGatewayController {
     private final PaymentGatewayService paymentGatewayService;
     private final WalletService walletService;
 
-    public PaymentGatewayController(PaymentGatewayService paymentGatewayService) {
+    public PaymentGatewayController(PaymentGatewayService paymentGatewayService, WalletService walletService) {
         this.paymentGatewayService = paymentGatewayService;
+        this.walletService = walletService;
     }
 
     @PostMapping("/process")
