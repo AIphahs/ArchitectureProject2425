@@ -9,6 +9,7 @@ import efrei.propertyStake.repository.InvestorRepository;
 import efrei.propertyStake.repository.PropertyRepository;
 import efrei.propertyStake.repository.WalletRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -120,5 +121,25 @@ public class InvestmentService {
 
     public List<Investment> getInvestmentsByInvestor(UUID investorId) {
         return investmentRepository.findByInvestorId(investorId);
+    }
+
+    // Méthode pour financer une propriété (pour les agents) - transaction synchronisée pour éviter les problèmes de concurrence (plusieurs agents qui financent en même temps)
+    @Transactional
+    public synchronized boolean fundProperty(Long propertyId, double amount) {
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+
+        // Vérification de la limite de financement
+        if (property.getCurrentFunding() + amount > property.getTotalFundingRequired()) {
+            throw new RuntimeException("Funding exceeds the required amount");
+        }
+
+        // Mise à jour du financement
+        property.setCurrentFunding(property.getCurrentFunding() + amount);
+
+        // Sauvegarde de la propriété
+        propertyRepository.save(property);
+
+        return true;
     }
 }

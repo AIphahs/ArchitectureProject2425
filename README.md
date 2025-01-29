@@ -7,11 +7,11 @@ A la racine du projet, exécutez:
 cd .\src\main\resources\
 docker-compose up -d
 ```
-## Étape 2 : Lanccer l'application
-'''bash
+## Étape 2 : Lancer l'application
+```bash
 mvn clean install
 mvn spring-boot:run
-'''
+```
 
 ## Tests :
 

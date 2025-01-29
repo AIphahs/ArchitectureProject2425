@@ -47,6 +47,10 @@ public class Property {
     @JsonManagedReference(value = "property-share")
     private List<ShareCertificate> shareCertificates = new ArrayList<>();
 
+    // Version pour gérer la concurrence
+    @Version
+    private int version; // Permet de gérer la concurrence
+
     public Property() {
     }
 

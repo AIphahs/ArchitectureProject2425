@@ -45,6 +45,16 @@ public class InvestmentController {
                 request.getAmount()
         );
     }
+    // Ex: { "investorId": "...", "propertyId": "...", "amount": 5000.0 }
+    @PostMapping("/fund/{propertyId}")
+    public String fundProperty(@PathVariable Long propertyId, @RequestParam double amount) {
+        try {
+            investmentService.fundProperty(propertyId, amount);
+            return "Funding successful";
+        } catch (RuntimeException e) {
+            return "Funding failed: " + e.getMessage();
+        }
+    }
 
     @DeleteMapping("/{id}")
     public void deleteInvestment(@PathVariable UUID id) {
